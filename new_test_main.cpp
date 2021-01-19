@@ -22,17 +22,19 @@ bool delete_all_vector(std::vector<int>&, int);
 void sort_vector(std::vector<int>&);
 
 
-
+void create_list(lista&); //inizializza la lista
 void head_insert_lista_s(lista&, int);
 void head_remove_lista_s(lista&);
 void tail_insert_lista_s(lista&, int);
 void tail_remove_lista_s(lista&);
+void insertInOrder(lista &, int);
 void read_lista_s(lista&);
 void print_lista_s(const lista&);
 bool is_in_lista_s(const lista&, int);
 bool delete_item_lista_s(lista&, int);
 bool delete_all_lista_s(lista&, int);
 void sort_lista_s(lista&);
+void reverseList(lista&);
 
 
 
@@ -62,25 +64,45 @@ int main(){
     // sort_vector(v);
     // print_vector(v);
 
-    lista l = nullptr;
-    head_insert_lista_s(l, 3);
+
+
+    // lista l = nullptr;
+    // head_insert_lista_s(l, 3);
     // print_lista_s(l);
     // head_remove_lista_s(l);
     // tail_insert_lista_s(l, 4);
     // print_lista_s(l);
     // tail_remove_lista_s(l);
-    read_lista_s(l);
-    print_lista_s(l);
-    std::cout << std::boolalpha << is_in_lista_s(l, 3) << '\n';
-    delete_item_lista_s(l, 3);
-    print_lista_s(l);
-    //
-    delete_all_lista_s(l, 4);
-    print_lista_s(l);
+    // read_lista_s(l);
+    // print_lista_s(l);
+    // std::cout << std::boolalpha << is_in_lista_s(l, 3) << '\n';
+    // delete_item_lista_s(l, 3);
+    // print_lista_s(l);
+    // delete_all_lista_s(l, 4);
+    // print_lista_s(l);
+    // sort_lista_s(l);
+    // print_lista_s(l);
 
-    sort_lista_s(l);
-    print_lista_s(l);
 
+
+    // lista_q l;
+    // create_queue(l);
+    // head_insert_queue(l, 3);
+    // head_insert_queue(l, 4);
+    // print_queue(l);
+    // head_remove_queue(l);
+    // print_queue(l);
+    // tail_remove_queue(l);
+    // print_queue(l);
+    // read_queue(l);
+    // print_queue(l);
+    // std::cout << std::boolalpha << is_in_queue(l, 3) << '\n';
+    // delete_item_queue(l, 3);
+    // print_queue(l);
+    // delete_all_queue(l, 4);
+    // print_queue(l);
+    // sort_queue(l);
+    // print_queue(l);
 
 }
 
@@ -144,6 +166,22 @@ void sort_vector(std::vector<int> &v){
     }
 }
 
+
+
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+
+void create_list(lista& l){
+    l = nullptr;
+}
+
 void head_insert_lista_s(lista& l, int n){
     Cell* new_cell = new Cell;
     new_cell->content = n;
@@ -175,17 +213,45 @@ void tail_insert_lista_s(lista& l, int n){
     l_copy->next = new_cell;
 }
 
-void tail_remove_lista_s(lista& l){
-    if (l == nullptr) throw std::string("head_remove_lista_s error: empty list");
+
+void tail_remove_lista_s(lista& l){ //fede
+    if (l == nullptr) throw std::string("deleteTail error: empty list");
     Cell* curr = l;
     Cell* prev = l;
-    while (curr != nullptr) {
+    while (curr->next != nullptr) {
         prev = curr;
         curr = curr->next;
     }
-    prev->next = nullptr;
+    if(curr == l){
+        l = nullptr;
+    }
+    else{
+        prev->next = nullptr;
+    }
     delete curr;
+};
+
+
+void insertInOrder(lista & l, int n){
+    Cell* new_cell = new Cell;
+    new_cell->content = n;
+    new_cell->next = nullptr;
+
+    Cell* curr = l;
+    Cell* prev;
+    while (curr != nullptr) {
+        if (new_cell->content < curr->content) break;
+        prev = curr;
+        curr = curr->next;
+    }
+    if(l == curr)
+        l = new_cell;
+    else{
+        prev->next = new_cell;
+        new_cell->next = curr;
+    }
 }
+
 
 void read_lista_s(lista& l){
     int input;
@@ -216,6 +282,7 @@ bool is_in_lista_s(const lista& l, int n){
     }
     return false;
 }
+
 bool delete_item_lista_s(lista& l, int n){
     if (l == nullptr) throw std::string("delete_item_lista_s: empty list.");
     if(!is_in_lista_s(l, n)) return false;
@@ -264,6 +331,53 @@ void sort_lista_s(lista& l){
         curr = curr->next;
     }
 }
+
+void reverseList(lista& l){
+        Cell* curr = l; // creo puntatori della cella corrente precedente e successiva
+        Cell* prev = nullptr;
+        Cell* step = nullptr;
+
+        while (curr != nullptr) { //itero tutta la lista
+            step = curr->next; //memorizzo la cella successiva
+            curr->next = prev; //punto alla cella precedente
+            prev = curr; //sposto i puntatori prev e curr in avanti di una cella
+            curr = step;
+        }
+        l = prev; //aggiorno la testa con il valore in "coda"
+}
+
+void insertInOrderByName(lista & l, int n){
+    Cell* new_cell = new Cell;
+    new_cell->content = n;
+    new_cell->next = nullptr;
+
+    Cell* curr = l;
+    Cell* prev;
+    while (curr != nullptr) {
+        if (new_cell->content < curr->content) break;
+        prev = curr;
+        curr = curr->next;
+    }
+    if(l == curr)
+        l = new_cell;
+    else{
+        prev->next = new_cell;
+        new_cell->next = curr;
+    }
+}
+
+
+
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+
 
 void create_queue(lista_q& q){
     q.head = nullptr;
@@ -314,11 +428,20 @@ void tail_remove_queue(lista_q& q){
     if (q.head == nullptr) throw std::string("tail_remove_queue error: empty list.");
     Cell* curr = q.head;
     Cell* prev;
-    while (curr != nullptr) {
+
+    while (curr->next != nullptr) {
         prev = curr;
         curr = curr->next;
     }
-    q.tail = prev;
+    if(curr == q.head){
+        q.head = nullptr;
+        q.tail = nullptr;
+    }
+    else{
+        prev->next = nullptr;
+        q.tail = prev;
+    }
+
     delete curr;
 }
 void read_queue(lista_q& q){
@@ -329,8 +452,6 @@ void read_queue(lista_q& q){
         if (input == -1) return;
         tail_insert_queue(q, input);
     }
-
-
 }
 void print_queue(const lista_q& q){
     Cell* q_copy = q.head;
@@ -352,9 +473,83 @@ bool is_in_queue(const lista_q& q, int n){
 }
 
 
-bool delete_item_queue(lista_q&, int);
-bool delete_all_queue(lista_q&, int);
-void sort_queue(lista_q&);
+bool delete_item_queue(lista_q& q, int n){
+    if (q.head == nullptr) throw std::string("tail_remove_queue error: empty list.");
+    if(!is_in_queue(q, n)) return false;
+
+    Cell* curr = q.head;
+    Cell* prev = q.head;
+    while (curr != nullptr && curr->content != n) {
+        prev = curr;
+        curr = curr->next;
+    }
+    if(curr == q.head){
+        q.head = nullptr;
+        q.tail = nullptr;
+    }
+    else{
+        prev->next = curr->next;
+    }
+    delete curr;
+    return true;
+}
+
+bool delete_all_queue(lista_q& q, int n){
+    if (q.head == nullptr) throw std::string("tail_remove_queue error: empty list.");
+    if(!is_in_queue(q, n)) return false;
+    while (delete_item_queue(q, n)) {
+    }
+    return true;
+}
+
+
+void sort_queue(lista_q& q){
+    Cell* curr = q.head;
+    Cell* step;
+    Cell* min;
+    while(curr != nullptr){
+        step = curr->next;
+        min = curr;
+        while(step != nullptr){
+            if(min->content > step->content)
+            min = step;
+
+            step = step->next;
+        }
+        //swap
+        if(curr != min){
+            int temp = curr->content;
+            curr->content = min->content;
+            min->content = temp;
+        }
+        curr = curr->next;
+    }
+}
+
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+//==========================================================================================================================================
+
+
+
+// void read_file(string nomefile, lista& l){
+//     std::ifstream handler;
+//     handler.open(nomefile);
+//     if(!handler.isopen()) throw std::string("error");
+//     std::string s;
+//     while(!handler.eof()) {//ritorna true quando finisce il file
+//         handler >> s; // cme il cin e memorizza dentro la variabile
+//         head_insert(l, s) // inserisco il dato da qualche parte
+//     }
+//     handler.close()
+// }
+
 
 
 /*
